@@ -9,7 +9,14 @@ defmodule Specimen.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+
+     dialyzer: [
+       plt_add_deps: :transitive,
+       plt_add_apps: [:phoenix_live_reload]
+     ]
+    ]
+
   end
 
   # Configuration for the OTP application.
@@ -17,7 +24,7 @@ defmodule Specimen.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Specimen, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext]]
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :guardian]]
   end
 
   # Specifies which paths to compile per environment.
@@ -33,6 +40,9 @@ defmodule Specimen.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:dialyxir, "~> 0.4", only: [:dev], runtime: false},
+     {:guardian, "~> 0.14.2"},
+   ]
   end
 end

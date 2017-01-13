@@ -18,6 +18,26 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+
+### Guardian
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  verify_module: Guardian.JWT,
+  issuer: "specimen",
+  ttl: { 365, :days },
+  verify_issuer: true,
+  secret_key: "12345",
+  serializer: Specimen.GuardianSerializer,
+
+  permissions: %{
+    user: [
+      :normal_login,
+      :admin_login,
+    ],
+  }
+
+
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
